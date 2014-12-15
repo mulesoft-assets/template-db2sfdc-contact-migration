@@ -90,8 +90,8 @@
 		</repository>
 	</repositories>
 	<scm>
-		<connection>scm:git:https://github.com/mulesoft/template-db2sfdc-contact-broadcast.git</connection>
-		<developerConnection>scm:git:https://github.com/mulesoft/template-db2sfdc-contact-broadcast.git</developerConnection>
-		<url>http://github.com/mulesoft/template-db2sfdc-contact-broadcast</url>
+		<connection>scm:git:https://github.com/mulesoft/template-db2sfdc-contact-migration.git</connection>
+		<developerConnection>scm:git:https://github.com/mulesoft/template-db2sfdc-contact-migration.git</developerConnection>
+		<url>http://github.com/mulesoft/template-db2sfdc-contact-migration</url>
 	</scm>
 </project>
