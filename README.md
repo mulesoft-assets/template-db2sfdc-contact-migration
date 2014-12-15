@@ -84,7 +84,8 @@ In order to have this template working as expected, you should be aware of your 
 
 ### As destination of data
 
-There are no particular considerations for this Anypoint Template regarding Siebel as data destination.
+There are no particular considerations for this Anypoint Template regarding Salesforce as data destination.
+
 
 
 
