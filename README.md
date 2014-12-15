@@ -150,10 +150,8 @@ Mule Studio provides you with really easy way to deploy your Template directly t
 ## Properties to be configured (With examples) <a name="propertiestobeconfigured"/>
 In order to use this Mule Anypoint Template you need to configure properties (Credentials, configurations, etc.) either in properties file or in CloudHub as Environment Variables. Detail list with examples:
 ### Application configuration
-**Application configuration**
-
 **Database Connector configuration**
-+ database.url=jdbc:mysql://192.168.224.130:3306/mule?user=mule&password=mule
++ db.jdbcUrl `jdbc:mysql://localhost:3306/mule?user=mule&password=mule`
 
 If it is required to connect to a different Database there should be provided the jar for the library and changed the value of that field in the connector.
 
@@ -163,10 +161,7 @@ If it is required to connect to a different Database there should be provided th
 + sfdc.securityToken `ces56arl7apQs56XTddf34X`
 + sfdc.url `https://login.salesforce.com/services/Soap/u/28.0`
 
-#### Database Connector configuration
-+ db.jdbcUrl `jdbc:mysql://localhost:3306/mule?user=mule&password=mule`
-
-### SMTP Services configuration
+#### SMTP Services configuration
 + smtp.host `smtp.gmail.com`
 + smtp.port `587`
 + smtp.user `johndoe%40gmail.com`
