@@ -5,25 +5,25 @@
 	</placeholders>
 	<sections>
 		<section id="use_case">
-As a Salesforce admin I want to syncronize Contacts between Salesforce and database.
+As a Salesforce admin I want to syncronize Contacts between a database and Salesforce in a one-time manner.
 
-This Template should serve as a foundation for setting an online sync of Contacts from one database Salesforce instance. Everytime you hit the http endpoint, integration will check for changes in database in manner of one time integration and it will be responsible for updating the Contact on the target Salesforce instance.
+This Template should serve as a foundation for setting an online migration of Contacts from one database to a Salesforce instance. Everytime the HTTP endpoint is triggered, the integration will migrate all the contacts in the database in manner of one time integration and it will be responsible for updating or inserting the Contact on the target Salesforce instance.
 
 Requirements have been set not only to be used as examples, but also to establish a starting point to adapt your integration to your requirements.
 
-As implemented, this Template leverage the [Batch Module](http://www.mulesoft.org/documentation/display/current/Batch+Processing).
+As implemented, this Template leverages the [Batch Module](http://www.mulesoft.org/documentation/display/current/Batch+Processing).
 The batch job is divided in Input, Process and On Complete stages.
-The integration is triggered by a http endpoint defined in the flow that is going to trigger the application, querying SalesForce updates/creations matching a filter criteria and executing the batch job.
-During the Process stage, each Salesforce Contact will be filtered depending on, if it has an existing matching Contact in the database
-The last step of the Process stage will group the Contacts and insert/update them in database.
-Finally during the On Complete stage the Template will logoutput statistics data into the console.
+The integration is triggered by a HTTP endpoint defined in the flow that is going to trigger the application, querying the database contacts matching a filter criteria and executing the batch job.
+During the Process stage, each database Contact will be filtered depending on if it has an existing matching Contact in the Salesforce instance.
+The last step of the Process stage will group the Contacts and insert/update them in Salesforce.
+Finally during the On Complete stage the Template will log output statistics data into the console and send an email with the results.
 		</section>
 		<section id="considerations">
 <![CDATA[
-To make this Anypoint Template run, there are certain preconditions that must be considered. All of them deal with the preparations in both source (Salesforce) and destination (Database) systems, that must be made in order for all to run smoothly. 
+To make this Anypoint Template run, there are certain preconditions that must be considered. All of them deal with the preparations in both source (Database) and destination (Salesforce) systems, that must be made in order for all to run smoothly. 
 **Failling to do so could lead to unexpected behavior of the template.**
 
-This particular Anypoint Template illustrate the broadcast use case between Salesforce and a Database, thus it requires a Database instance to work.
+This particular Anypoint Template illustrate the migration use case between a Database and Salesforce, thus it requires a Database instance to work.
 The Anypoint Template comes packaged with a SQL script to create the Database table that uses. It is the user responsability to use that script to create the table in an available schema and change the configuration accordingly. The SQL script file can be found in [src/main/resources/contact.sql] (../master/src/main/resources/contact.sql)
 ]]>
 		</section>
@@ -71,10 +71,10 @@ If it is required to connect to a different Database there should be provided th
 + db.jdbcUrl `jdbc:mysql://localhost:3306/mule?user=mule&password=mule`
 
 ### SMTP Services configuration
-+ smtp.host=smtp.gmail.com
-+ smtp.port=587
-+ smtp.user=johndoe%40gmail.com
-+ smtp.password=password
++ smtp.host `smtp.gmail.com`
++ smtp.port `587`
++ smtp.user `johndoe%40gmail.com`
++ smtp.password `password`
 
 #### E-mail Details
 + mail.from `batch.migrateaccounts.migration%40mulesoft.com`
