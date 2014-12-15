@@ -158,17 +158,23 @@ In order to use this Mule Anypoint Template you need to configure properties (Cr
 If it is required to connect to a different Database there should be provided the jar for the library and changed the value of that field in the connector.
 
 **Salesforce Connector configuration**
-+ sfdc.a.username `joan.baez@orgb`
-+ sfdc.a.password `JoanBaez456`
-+ sfdc.a.securityToken `ces56arl7apQs56XTddf34X`
-+ sfdc.a.url `https://login.salesforce.com/services/Soap/u/28.0`
++ sfdc.username `joan.baez@orgb`
++ sfdc.password `JoanBaez456`
++ sfdc.securityToken `ces56arl7apQs56XTddf34X`
++ sfdc.url `https://login.salesforce.com/services/Soap/u/28.0`
 
 #### Database Connector configuration
 + db.jdbcUrl `jdbc:mysql://localhost:3306/mule?user=mule&password=mule`
 
+### SMTP Services configuration
++ smtp.host=smtp.gmail.com
++ smtp.port=587
++ smtp.user=johndoe%40gmail.com
++ smtp.password=password
+
 #### E-mail Details
 + mail.from `batch.migrateaccounts.migration%40mulesoft.com`
-+ mail.to `cesar.garcia@mulesoft.com`
++ mail.to `user@example.com`
 + mail.subject `Batch Job Finished Report`
 
 # API Calls <a name="apicalls"/>
