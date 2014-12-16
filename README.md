@@ -26,7 +26,7 @@ Note that using this template is subject to the conditions of this [License Agre
 Please review the terms of the license before downloading and using this template. In short, you are allowed to use the template for free with Mule ESB Enterprise Edition, CloudHub, or as a trial in Anypoint Studio.
 
 # Use Case <a name="usecase"/>
-As a Salesforce admin I want to syncronize Contacts between a database and Salesforce in a one-time manner.
+As a Salesforce admin I want to synchronize Contacts between a database and Salesforce in a one-time manner.
 
 This Template should serve as a foundation for setting an online migration of Contacts from one database to a Salesforce instance. Everytime the HTTP endpoint is triggered, the integration will migrate all the contacts in the database in manner of one time integration and it will be responsible for updating or inserting the Contact on the target Salesforce instance.
 
@@ -42,10 +42,10 @@ Finally during the On Complete stage the Template will log output statistics dat
 # Considerations <a name="considerations"/>
 
 To make this Anypoint Template run, there are certain preconditions that must be considered. All of them deal with the preparations in both source (Database) and destination (Salesforce) systems, that must be made in order for all to run smoothly. 
-**Failling to do so could lead to unexpected behavior of the template.**
+**Failing to do so could lead to unexpected behavior of the template.**
 
 This particular Anypoint Template illustrate the migration use case between a Database and Salesforce, thus it requires a Database instance to work.
-The Anypoint Template comes packaged with a SQL script to create the Database table that uses. It is the user responsability to use that script to create the table in an available schema and change the configuration accordingly. The SQL script file can be found in [src/main/resources/contact.sql] (../master/src/main/resources/contact.sql)
+The Anypoint Template comes packaged with a SQL script to create the Database table that uses. It is the user responsibility to use that script to create the table in an available schema and change the configuration accordingly. The SQL script file can be found in [src/main/resources/contact.sql] (../master/src/main/resources/contact.sql)
 
 ## DB Considerations <a name="dbconsiderations"/>
 
