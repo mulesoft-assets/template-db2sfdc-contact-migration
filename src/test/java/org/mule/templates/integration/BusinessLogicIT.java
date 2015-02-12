@@ -34,7 +34,6 @@ import org.mule.templates.db.MySQLDbCreator;
 import org.mule.util.UUID;
 
 import com.mulesoft.module.batch.BatchTestHelper;
-import com.sforce.soap.partner.SaveResult;
 
 /**
  * The objective of this class is validating the correct behavior of the flows
