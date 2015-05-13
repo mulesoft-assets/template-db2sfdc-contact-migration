@@ -32,7 +32,7 @@ The Anypoint Template comes packaged with a SQL script to create the Database ta
 See below.
 ]]>
 		</section>
-		<section id="running_on_studio">
+		<section id="default_running_on_studio">
 <![CDATA[
 Once you have imported your Anypoint Template into Anypoint Studio you need to follow these steps to run it:
 
@@ -55,26 +55,39 @@ Follow other steps defined [here](#runonpremise) and once your app is all set an
 		<section id="application_configuration">
 		<![CDATA[
 **Database Connector configuration**
+
 + db.jdbcUrl `jdbc:mysql://localhost:3306/mule?user=mule&password=mule`
 
-If it is required to connect to a different Database there should be provided the jar for the library and changed the value of that field in the connector.
+**Note:** If it is required to connect to a different Database there should be provided the jar for the library and changed the value of that field in the connector.
 
 **Salesforce Connector configuration**
+
 + sfdc.username `joan.baez@orgb`
 + sfdc.password `JoanBaez456`
 + sfdc.securityToken `ces56arl7apQs56XTddf34X`
-+ sfdc.url `https://login.salesforce.com/services/Soap/u/28.0`
++ sfdc.url `https://login.salesforce.com/services/Soap/u/32.0`
 
-#### SMTP Services configuration
+**SMTP Services configuration**
+
 + smtp.host `smtp.gmail.com`
 + smtp.port `587`
 + smtp.user `johndoe%40gmail.com`
 + smtp.password `password`
 
-#### E-mail Details
-+ mail.from `batch.migrateaccounts.migration%40mulesoft.com`
+**E-mail Details**
+
++ mail.from `batch.contact.migration%40mulesoft.com`
 + mail.to `user@example.com`
 + mail.subject `Batch Job Finished Report`
+
+**Syncing policy for accounts**
+
++ account.sync.policy=syncAccount
+
+**Note:** the property **account.sync.policy** can take any of the two following values: 
+
++ **doNotCreateAccount**: if the propety has no value assigned to it then application will do nothing in what respect to the account and it'll just move the contact over.
++ **syncAccount**: it will try to create the contact's account if this is not pressent in the Salesforce instance.
 ]]>
 		</section>
 		<section id="api_calls">
@@ -94,10 +107,11 @@ For instance if 10 records are fetched from origin instance, then 12 api calls w
 		<![CDATA[
 Functional aspect of the Template is implemented on this XML, directed by one flow that will check for Salesforce creations/updates. The severeal message processors constitute four high level actions that fully implement the logic of this Template:
 
-1. During the Input stage the Template will go to the Salesforce and query all the existing Contacts that match the filter criteria.
-2. During the Process stage, each Salesforce Contact will checked by name against Database, if it has an existing matching objects in database.
-3. The choice routing element will then decide whether to perform update on selected database columns or peform insert
-Finally during the On Complete stage the Template will logoutput statistics data into the console.
+1. During the Input stage the Template will go to the Database and query all the existing Contacts that match the filter criteria.
+2. During the Process stage, each Database Contact will be checked by name against Salesforce, if it has an existing matching objects in database.
+3. Account associated with Database Contact is migrated to Account associated with Contact in Salesforce. The matching is performed by querying a Salesforce instance for an entry with name same as the given Database Account name.
+4. The choice routing element will then decide whether to perform update or peform insert of Contact in Salesforce
+5. Finally during the On Complete stage the Template will logoutput statistics data into the console.
 ]]>
 		</section>
 		<section id="default_endpoints_xml">

@@ -89,6 +89,10 @@ There are no particular considerations for this Anypoint Template regarding Sale
 
 
 
+
+
+
+
 # Run it! <a name="runit"/>
 Simple steps to get Database to Salesforce Contact Migration running.
 See below.
@@ -116,13 +120,6 @@ You can find a detailed description on how to do so in this [Documentation Page]
 
 
 ### Running on Studio <a name="runonstudio"/>
-Once you have imported you Anypoint Template into Anypoint Studio you need to follow these steps to run it:
-
-+ Locate the properties file `mule.dev.properties`, in src/main/resources
-+ Complete all the properties required as per the examples in the section [Properties to be configured](#propertiestobeconfigured)
-+ Once that is done, right click on you Anypoint Template project folder 
-+ Hover you mouse over `"Run as"`
-+ Click on  `"Mule Application"`
 Once you have imported your Anypoint Template into Anypoint Studio you need to follow these steps to run it:
 
 + Locate the properties file `mule.dev.properties`, in src/main/resources
@@ -133,6 +130,7 @@ Once you have imported your Anypoint Template into Anypoint Studio you need to f
 + Once that is done, right click on you Anypoint Template project folder 
 + Hover you mouse over `"Run as"`
 + Click on  `"Mule Application"`
+
 
 ### Running on Mule ESB stand alone <a name="runonmuleesbstandalone"/>
 Complete all properties in one of the property files, for example in [mule.prod.properties] (../master/src/main/resources/mule.prod.properties) and run your app with the corresponding environment variable to use it. To follow the example, this will be `mule.env=prod`. 
@@ -151,26 +149,39 @@ Mule Studio provides you with really easy way to deploy your Template directly t
 In order to use this Mule Anypoint Template you need to configure properties (Credentials, configurations, etc.) either in properties file or in CloudHub as Environment Variables. Detail list with examples:
 ### Application configuration
 **Database Connector configuration**
+
 + db.jdbcUrl `jdbc:mysql://localhost:3306/mule?user=mule&password=mule`
 
-If it is required to connect to a different Database there should be provided the jar for the library and changed the value of that field in the connector.
+**Note:** If it is required to connect to a different Database there should be provided the jar for the library and changed the value of that field in the connector.
 
 **Salesforce Connector configuration**
+
 + sfdc.username `joan.baez@orgb`
 + sfdc.password `JoanBaez456`
 + sfdc.securityToken `ces56arl7apQs56XTddf34X`
-+ sfdc.url `https://login.salesforce.com/services/Soap/u/28.0`
++ sfdc.url `https://login.salesforce.com/services/Soap/u/32.0`
 
-#### SMTP Services configuration
+**SMTP Services configuration**
+
 + smtp.host `smtp.gmail.com`
 + smtp.port `587`
 + smtp.user `johndoe%40gmail.com`
 + smtp.password `password`
 
-#### E-mail Details
-+ mail.from `batch.migrateaccounts.migration%40mulesoft.com`
+**E-mail Details**
+
++ mail.from `batch.contact.migration%40mulesoft.com`
 + mail.to `user@example.com`
 + mail.subject `Batch Job Finished Report`
+
+**Syncing policy for accounts**
+
++ account.sync.policy=syncAccount
+
+**Note:** the property **account.sync.policy** can take any of the two following values: 
+
++ **doNotCreateAccount**: if the propety has no value assigned to it then application will do nothing in what respect to the account and it'll just move the contact over.
++ **syncAccount**: it will try to create the contact's account if this is not pressent in the Salesforce instance.
 
 # API Calls <a name="apicalls"/>
 Salesforce imposes limits on the number of API Calls that can be made. Therefore calculating this amount may be an important factor to consider. Contact Broadcast Template calls to the API can be calculated using the formula:
@@ -206,10 +217,11 @@ In the visual editor they can be found on the *Global Element* tab.
 ## businessLogic.xml<a name="businesslogicxml"/>
 Functional aspect of the Template is implemented on this XML, directed by one flow that will check for Salesforce creations/updates. The severeal message processors constitute four high level actions that fully implement the logic of this Template:
 
-1. During the Input stage the Template will go to the Salesforce and query all the existing Contacts that match the filter criteria.
-2. During the Process stage, each Salesforce Contact will checked by name against Database, if it has an existing matching objects in database.
-3. The choice routing element will then decide whether to perform update on selected database columns or peform insert
-Finally during the On Complete stage the Template will logoutput statistics data into the console.
+1. During the Input stage the Template will go to the Database and query all the existing Contacts that match the filter criteria.
+2. During the Process stage, each Database Contact will be checked by name against Salesforce, if it has an existing matching objects in database.
+3. Account associated with Database Contact is migrated to Account associated with Contact in Salesforce. The matching is performed by querying a Salesforce instance for an entry with name same as the given Database Account name.
+4. The choice routing element will then decide whether to perform update or peform insert of Contact in Salesforce
+5. Finally during the On Complete stage the Template will logoutput statistics data into the console.
 
 
 
