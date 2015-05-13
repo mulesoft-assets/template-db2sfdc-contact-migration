@@ -83,9 +83,7 @@ http://www.mulesoft.org/schema/mule/ee/data-mapper http://www.mulesoft.org/schem
 	                </choice>            
             
             </batch:step>
-            <batch:step name="setDummyAccountIdStep" accept-expression="'assignDummyAccount' == '${account.sync.policy}'">
-                <expression-component doc:name="Set dummy AccountId"><![CDATA[payload['AccountId']= '${account.id.in.b}';]]></expression-component>
-            </batch:step>            
+            
             <batch:step name="doNotCreateAccountStep" accept-expression="'doNotCreateAccount' == '${account.sync.policy}'">
                 <expression-component doc:name="Remove AccountId"><![CDATA[payload.remove('AccountId');]]></expression-component>
             </batch:step>            
