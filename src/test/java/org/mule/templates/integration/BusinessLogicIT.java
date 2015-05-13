@@ -156,10 +156,7 @@ public class BusinessLogicIT extends AbstractTemplateTestCase {
 	}
 
 	private String createTestContactsInDatabase(Map<String, Object> contact,	InterceptingChainLifecycleWrapper createContactFlow) throws MuleException, Exception {
-		List<Map<String, Object>> salesforceContacts = new ArrayList<Map<String, Object>>();
-		salesforceContacts.add(contact);
-
-		createContactFlow.process(getTestEvent(salesforceContacts, MessageExchangePattern.REQUEST_RESPONSE)).getMessage().getPayload();
+		createContactFlow.process(getTestEvent(contact, MessageExchangePattern.REQUEST_RESPONSE)).getMessage().getPayload();
 		return null;
 	}
 

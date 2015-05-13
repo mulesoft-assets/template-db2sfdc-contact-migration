@@ -13,7 +13,7 @@ http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfd
 http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
     <sub-flow name="createContactInDatabaseFlow" doc:name="createContactInDatabaseFlow">
         <logger message="xxxxxxxxxxxx #[payload]" level="INFO" doc:name="Logger"/>
-        <db:insert config-ref="Database" doc:name="Database" bulkMode="true">
+        <db:insert config-ref="Database" doc:name="Database">
             <db:parameterized-query><![CDATA[INSERT INTO contact (LastName, AccountName, Email) 
 VALUES(#[payload['LastName']], #[payload['AccountName']], #[payload['Email']]);]]></db:parameterized-query>
         </db:insert>
