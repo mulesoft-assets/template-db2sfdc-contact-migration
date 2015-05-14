@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
@@ -42,6 +44,8 @@ import com.mulesoft.module.batch.BatchTestHelper;
  */
 @SuppressWarnings("unchecked")
 public class BusinessLogicIT extends AbstractTemplateTestCase {
+	
+	private static final Logger log = LogManager.getLogger(BusinessLogicIT.class);
 
 	private static final String INBOUND_FLOW_NAME = "triggerFlow";
 	private static final String ANYPOINT_TEMPLATE_NAME = "db2sfdc-contact-migration";
@@ -141,8 +145,8 @@ public class BusinessLogicIT extends AbstractTemplateTestCase {
 		contactInSf.put("LastName", name);
 		Map<String, Object> response = (Map<String, Object>)queryContactFromSalesforceFlow.process(getTestEvent(contactInSf, MessageExchangePattern.REQUEST_RESPONSE)).getMessage().getPayload();
 
-		System.err.println(contactInSf);
-		System.err.println("res " + response);
+		log.info("Contact in Saleforce: " + contactInSf);
+		log.info("Response: " + response);
 		
 		Assert.assertNotNull("There should be a contact created", response.get("Name"));
 		Assert.assertTrue("Contact LastName should match", response.get("Name").equals(name));

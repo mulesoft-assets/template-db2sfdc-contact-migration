@@ -49,7 +49,7 @@ public class MySQLDbCreator {
 	
 	public void setUpDatabase() {
 		
-		System.out.println("******************************** Populate MySQL DB **************************");
+		log.info("******************************** Populate MySQL DB **************************");
 		Connection conn = null;
 		
 		try {
@@ -77,7 +77,7 @@ public class MySQLDbCreator {
 			stmt.addBatch(createStatement.toString());
 			in.close();
 			stmt.executeBatch();
-			System.out.println("Success");
+			log.info("Success");
 			
 		} catch (SQLException ex) {
 		    // handle any errors
@@ -90,7 +90,7 @@ public class MySQLDbCreator {
 	}
 	
 	public void tearDownDataBase() {
-		System.out.println("******************************** Delete Tables from MySQL DB **************************");
+		log.info("******************************** Delete Tables from MySQL DB **************************");
 		Connection conn = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
