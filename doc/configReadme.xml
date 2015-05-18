@@ -54,6 +54,11 @@ Follow other steps defined [here](#runonpremise) and once your app is all set an
 		</section>
 		<section id="application_configuration">
 		<![CDATA[
+**Application configuration**
+
+ + http.port `9090`
+ + page.size `200`
+  
 **Database Connector configuration**
 
 + db.jdbcUrl `jdbc:mysql://localhost:3306/mule?user=mule&password=mule`
