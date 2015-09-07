@@ -2,15 +2,14 @@
 
 <mule xmlns:db="http://www.mulesoft.org/schema/mule/db"
 	xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc"
-	xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.6.2"
+	xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.7.1"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd
-http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
+http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd">
     <sub-flow name="createContactInDatabaseFlow" doc:name="createContactInDatabaseFlow">
         <logger message="Create contact in DB: #[payload]" level="INFO" doc:name="Logger"/>
         <db:insert config-ref="Database" doc:name="Database">
@@ -19,15 +18,6 @@ VALUES(#[payload['LastName']], #[payload['AccountName']], #[payload['Email']]);]
         </db:insert>
         <logger message="Contact in DB created: #[payload]" level="INFO" doc:name="Logger"/>
     </sub-flow>
-
-
-	<!-- Contact management flows -->
-
-	
-	
-	<!-- Account management flows -->
-
-	
 	
 	<!-- Additional test configurations -->
     <sub-flow name="queryContactFromSalesforceFlow" doc:name="queryContactFromSalesforceFlow">
