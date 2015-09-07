@@ -13,13 +13,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -45,7 +41,7 @@ import com.mulesoft.module.batch.BatchTestHelper;
 @SuppressWarnings("unchecked")
 public class BusinessLogicIT extends AbstractTemplateTestCase {
 	
-	private static final Logger log = LogManager.getLogger(BusinessLogicIT.class);
+	private static final Logger LOGGER = LogManager.getLogger(BusinessLogicIT.class);
 
 	private static final String INBOUND_FLOW_NAME = "triggerFlow";
 	private static final String ANYPOINT_TEMPLATE_NAME = "db2sfdc-contact-migration";
@@ -67,15 +63,8 @@ public class BusinessLogicIT extends AbstractTemplateTestCase {
 
 	@BeforeClass
 	public static void beforeTestClass() {
-		System.setProperty("page.size", "1000");
 		System.setProperty("db.jdbcUrl", DBCREATOR.getDatabaseUrlWithName());
 		DBCREATOR.setUpDatabase();
-		
-		// Set default water-mark expression to current time
-		System.clearProperty("watermark.default.expression");
-		DateTime now = new DateTime(DateTimeZone.UTC);
-		DateTimeFormatter dateFormat = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-		System.setProperty("watermark.default.expression", now.toString(dateFormat));
 		System.setProperty("account.sync.policy", "syncAccount");
 	}
 	
@@ -101,8 +90,6 @@ public class BusinessLogicIT extends AbstractTemplateTestCase {
 
 	@AfterClass
 	public static void shutDown() {
-		System.clearProperty("polling.frequency");
-		System.clearProperty("watermark.default.expression");
 		System.clearProperty("account.sync.policy");
 	}
 
@@ -145,8 +132,8 @@ public class BusinessLogicIT extends AbstractTemplateTestCase {
 		contactInSf.put("LastName", name);
 		Map<String, Object> response = (Map<String, Object>)queryContactFromSalesforceFlow.process(getTestEvent(contactInSf, MessageExchangePattern.REQUEST_RESPONSE)).getMessage().getPayload();
 
-		log.info("Contact in Saleforce: " + contactInSf);
-		log.info("Response: " + response);
+		LOGGER.info("Contact in Saleforce: " + contactInSf);
+		LOGGER.info("Response: " + response);
 		
 		Assert.assertNotNull("There should be a contact created", response.get("Name"));
 		Assert.assertTrue("Contact LastName should match", response.get("Name").equals(name));
