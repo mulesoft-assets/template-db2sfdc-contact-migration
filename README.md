@@ -153,7 +153,8 @@ In order to use this Mule Anypoint Template you need to configure properties (Cr
 ### Application configuration
 **Application configuration**
 
- + http.port `9090`
++ http.port `9090`
++ page.size `200`
   
 **Database Connector configuration**
 
