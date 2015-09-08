@@ -36,27 +36,23 @@ http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee
             </batch:step>
             <batch:step name="findOrCreateAccountInSalesforceStep" accept-expression="#['syncAccount' == '${account.sync.policy}' &amp;&amp; payload.AccountName != null]">
             
-                      <enricher source="#[payload == null ? null : payload.Id]" target="#[recordVars.sfAccountId]" doc:name="store in recordVars['sfAccountId']">
+                      <enricher source="#[payload == null ? null : payload.Id]" target="#[payload.AccountId]" doc:name="enrich payload with existing AccountId">
                           <sfdc:query-single config-ref="Salesforce" query="SELECT Id FROM Account WHERE Name = '#[payload['AccountName']]'" doc:name="Query Account in Salesforce Instance"/>
                       </enricher>
-
-	                <choice doc:name="Choice">
-	                    <when expression="#[recordVars.sfAccountId == null]">
-	                        <enricher doc:name="enrich payload with new AccountId" target="#[payload.AccountId]" source="#[payload.getId()]">
+                <choice doc:name="Should be a new Account created?">
+                    <when expression="#[payload.AccountId == null]">
+                        <enricher source="#[payload.getId()]" target="#[payload.AccountId]" doc:name="enrich payload with new AccountId">
                             <sfdc:create-single config-ref="Salesforce" type="Account" doc:name="Create Account in Salesforce">
                                 <sfdc:object>
                                     <sfdc:object key="Name">#[payload['AccountName']]</sfdc:object>
                                 </sfdc:object>
                             </sfdc:create-single>
-	                        </enricher>
-	                    </when>
-	                    <otherwise>
-
-	                        <enricher target="#[payload.AccountId]" doc:name="enrich payload with existing AccountId" source="#[payload]">
-	     	                   <expression-transformer expression="#[recordVars.sfAccountId]" doc:name="Get new account id"/>
-	                        </enricher>
-	                    </otherwise>
-	                </choice>
+                        </enricher>
+                    </when>
+                    <otherwise>
+                        <logger level="INFO" doc:name="Existing Account Id already set"/>
+                    </otherwise>
+                </choice>
             
             </batch:step>
             

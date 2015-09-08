@@ -138,7 +138,6 @@ Once you have imported your Anypoint Template into Anypoint Studio you need to f
 Complete all properties in one of the property files, for example in [mule.prod.properties] (../master/src/main/resources/mule.prod.properties) and run your app with the corresponding environment variable to use it. To follow the example, this will be `mule.env=prod`. 
 After this, to trigger the use case you just need to hit the local HTTP connector with the port you configured in your file. If this is, for instance, `9090` then you should hit: `http://localhost:9090/migratecontacts` and this will output a summary report and send it in the e-mail.
 
-
 ## Running on CloudHub <a name="runoncloudhub"/>
 While [creating your application on CloudHub](http://www.mulesoft.org/documentation/display/current/Hello+World+on+CloudHub) (Or you can do it later as a next step), you need to go to Deployment > Advanced to set all environment variables detailed in **Properties to be configured** as well as the **mule.env**.
 While [creating your application on CloudHub](http://www.mulesoft.org/documentation/display/current/Hello+World+on+CloudHub) (Or you can do it later as a next step), you need to go to Deployment > Advanced to set all environment variables detailed in **Properties to be configured** as well as the **mule.env**. 
@@ -184,7 +183,7 @@ In order to use this Mule Anypoint Template you need to configure properties (Cr
 
 **Syncing policy for accounts**
 
-+ account.sync.policy=syncAccount
++ account.sync.policy `syncAccount`
 
 **Note:** the property **account.sync.policy** can take any of the two following values: 
 
