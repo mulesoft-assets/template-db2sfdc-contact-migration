@@ -169,7 +169,7 @@ payload map {
  						</ee:transform>
  						<email:send config-ref="Gmail_SMTP" doc:name="Send migration result email"
  							doc:id="5896eaa9-dd10-47a2-a6fc-6319b11dbd06" fromAddress="${mail.from}"
- 							subject="Contacts has been migrated">
+ 							subject="Contacts have been migrated">
  							<email:to-addresses>
  								<email:to-address value="${mail.to}" />
  							</email:to-addresses>
