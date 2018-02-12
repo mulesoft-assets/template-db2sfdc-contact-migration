@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<configuration>
+	<placeholders>
+		<placeholder id="template_name">Database to Salesforce Contact Migration</placeholder>
+	</placeholders>
+	<sections>
+		<section id="use_case">
+As a Salesforce admin I want to synchronize Contacts from a database to Salesforce in a one-time manner.
+
+This Template should serve as a foundation for setting an online migration of Contacts from a database to a Salesforce instance. Everytime the HTTP endpoint is triggered, the integration will migrate all the contacts in the database in manner of one time integration and it will be responsible for updating or inserting the Contact on the target Salesforce instance.
+
+Requirements have been set not only to be used as examples, but also to establish a starting point to adapt your integration to your requirements.
+
+As implemented, this Template leverages the [Batch Module](http://www.mulesoft.org/documentation/display/current/Batch+Processing).
+The batch job is divided in Process Records and On Complete stages.
+The integration is triggered by HTTP endpoint defined in the flow that is going to trigger the application, querying the database contacts matching a filter criteria and executing the batch job.
+During the Process Records stage, each database Contact will be filtered depending on if it has an existing matching Contact in the Salesforce instance.
+The last step of the Process stage will group the Contacts and insert/update them in Salesforce.
+Finally during the On Complete stage the Template will log output statistics data into the console and send an email with the results.
+
+In this template you may choose whether Account for Contact should be created as well during the process. 
+		</section>
+		<section id="considerations">
+<![CDATA[
+To make this Anypoint Template run, there are certain preconditions that must be considered. All of them deal with the preparations in both source (Database) and destination (Salesforce) systems, that must be made in order for all to run smoothly. 
+**Failing to do so could lead to unexpected behavior of the template.**
+
+This particular Anypoint Template illustrates the migration use case between a Database and Salesforce, thus it requires a Database instance to work.
+The Anypoint Template comes packaged with a SQL script to create the Database table that uses. It is the user responsibility to use that script to create the table in an available schema and change the configuration accordingly. The SQL script file can be found in [src/main/resources/contact.sql](../master/src/main/resources/contact.sql)
+]]>
+		</section>
+				<section id="run_it">
+<![CDATA[
+
+**Note:** This particular Anypoint Template illustrates the migration use case between Salesforce and a Database, thus it requires a Database instance to work.
+The Anypoint Template comes packaged with a SQL script to create the database table that uses. 
+It is the user responsibility to use that script to create the table in an available schema and change the configuration accordingly. The SQL script file can be found in [src/main/resources/contact.sql](../master/src/main/resources/contact.sql).
+
+This template is customized for MySQL. To use it with different SQL implementation, some changes are necessary:
+
+* update SQL script dialect to desired one
+* replace MySQL driver library (or add another) dependency to desired one in [POM](pom.xml)
+* update Database Config to suitable connection instead of `db:my-sql-connection` in global elements (config.xml)
+* update connection configurations in `mule.*.properties` file
+
+In any of the ways you would like to run this Template this is an example of the output you'll see after hitting the HTTP endpoint:
+
+	{
+	  "Message": "Batch Process initiated",
+	  "ID": "7fc674b0-e4b7-11e7-9627-100ba905a441",
+	  "RecordCount": 32,
+	  "StartExecutionOn": "2017-12-19T13:24:03Z"
+	}
+]]>
+		</section>
+		<section id="running_on_standalone">
+<![CDATA[
+After this, to trigger the use case you just need to hit the local HTTP connector with the port you configured in your file. If this is, for instance, `9090` then you should hit: `http://localhost:9090/migratecontacts` and this will output a summary report and send it in the e-mail.
+]]>
+		</section>
+		<section id="running_on_cloudhub">
+<![CDATA[
+While [creating your application on CloudHub](http://www.mulesoft.org/documentation/display/current/Hello+World+on+CloudHub) (Or you can do it later as a next step), you need to go to Deployment > Advanced to set all environment variables detailed in **Properties to be configured** as well as the **mule.env**. 
+Follow other steps defined [here](#runonpremise) and once your app is all set and started, there is no need to do anything else. Once your app is all set up and started, supposing you choose contactsmigration as domain name to trigger the use case, you just need to hit http://contactsmigration.cloudhub.io/migratecontacts and report will be sent to the e-mail configured.
+]]>
+		</section>
+		<section id="application_configuration">
+		<![CDATA[
+**Application configuration**
+
++ http.port `9090`
++ page.size `200`
+    
+**Syncing policy for accounts**
+
++ account.sync.policy `syncAccount`
+
+**Note:** the property **account.sync.policy** can take any of the two following values: 
+
++ **doNotCreateAccount**: if the propety has no value assigned to it then application will do nothing in what respect to the account and it'll just move the contact over.
++ **syncAccount**: it will try to create the contact's account if this is not pressent in the Salesforce instance.
+
+**Database Connector configuration**
+
++ db.host `localhost`
++ db.port `3306`
++ db.user `user-name`
++ db.password `user-password`
++ db.databasename `dbname`
+
+**Note:** If it is required to connect to a different Database there should be provided the jar for the library and changed the value of that field in the connector.
+
+**Salesforce Connector configuration**
+
++ sfdc.username `joan.baez@orgb`
++ sfdc.password `JoanBaez456`
++ sfdc.securityToken `ces56arl7apQs56XTddf34X`
+
+**SMTP Services configuration**
+
++ smtp.host `smtp.gmail.com`
++ smtp.port `587`
++ smtp.user `johndoe%40gmail.com`
++ smtp.password `password`
+
+**E-mail Details**
+
++ mail.from `batch.contact.migration%40mulesoft.com`
++ mail.to `user@example.com`
++ mail.subject `Batch Job Finished Report`
+
+]]>
+		</section>
+		<section id="api_calls">
+		<![CDATA[
+Salesforce imposes limits on the number of API Calls that can be made. Therefore calculating this amount may be an important factor to consider. Contact Migration Template calls to the API can be calculated using the formula:
+
+*** 1 + X + X + X / 200*** 
+
+Being ***X*** the number of Contacts to be synchronized on each run. 
+
+The division by ***200*** is because, by default, Contacts are gathered in groups of 200 for each Upsert API Call in the commit step.	
+
+For instance if 10 records are fetched from origin instance, then 31 api calls will be made (1 + 10 + 10 + 10) - considering sync Account policy enabled.
+]]>
+		</section>
+		<section id="default_business_logic_xml">
+		<![CDATA[
+Functional aspect of the Template is implemented on this XML, directed by one flow that will check for Salesforce creations/updates. The several message processors constitute four high level actions that fully implement the logic of this Template:
+
+1. During the Input stage the Template will go to the Database and query all the existing Contacts that match the filter criteria.
+2. During the Process Records stage, each Database Contact will be checked by name against Salesforce, if it has an existing matching objects in database.
+3. Account associated with Database Contact is migrated to Account associated with Contact in Salesforce. The matching is performed by querying a Salesforce instance for an entry with name same as the given Database Account name.
+4. Then the upsert of Contact in Salesforce is performed.
+5. Finally during the On Complete stage the Template will logoutput statistics data into the console and send email.
+]]>
+		</section>
+		<section id="default_endpoints_xml">
+		<![CDATA[
+This is the file where you will found the inbound and outbound sides of your integration app.
+This Template has only an [HTTP Listener Connector](http://www.mulesoft.org/documentation/display/current/HTTP+Listener+Connector) as the way to trigger the use case.
+$H$H# Inbound Flow
+**HTTP Listener Connector** - Start Report Generation
+
++ `${http.port}` is set as a property to be defined either on a property file or in CloudHub environment variables.
++ The path configured by default is `migratecontacts` and you are free to change for the one you prefer.
++ The host name for all endpoints in your CloudHub configuration should be defined as `localhost`. CloudHub will then route requests from your application domain URL to the endpoint.
++ The endpoint is a *request-response* and a result of calling it is the response with the total records fetched by the criteria specified.
+]]>
+		</section>
+	</sections>
+</configuration>
