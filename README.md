@@ -1,3 +1,4 @@
+# Database to Salesforce Contact Migration Template
 This template moves a large set of contacts from a database to Salesforce. You can trigger this manually or programmatically with an HTTP call. 
 
 Contacts are upserted so that the migration can be run multiple times without worrying about creating duplicates. This template uses batch to efficiently process many records at a time. 
