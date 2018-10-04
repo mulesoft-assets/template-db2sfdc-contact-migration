@@ -13,13 +13,9 @@ Parent accounts of the contacts are created if they don’t already exist in the
 
 # License Agreement
 
-This template is subject to the conditions of the
+This template is subject to the conditions of the [MuleSoft License Agreement](https://s3.amazonaws.com/templates-examples/AnypointTemplateLicense.pdf "MuleSoft License Agreement").
 
-[MuleSoft License Agreement](https://s3.amazonaws.com/templates-examples/AnypointTemplateLicense.pdf "MuleSoft License Agreement").
-
-Review the terms of the license before downloading and using this template. You can use this template for free
-
-with the Mule Enterprise Edition, CloudHub, or as a trial in Anypoint Studio.
+Review the terms of the license before downloading and using this template. You can use this template for free with the Mule Enterprise Edition, CloudHub, or as a trial in Anypoint Studio.
 
 # Use Case
 
