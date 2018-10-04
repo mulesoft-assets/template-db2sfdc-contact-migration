@@ -9,7 +9,7 @@ Parent accounts of the contacts are created if they don’t already exist in the
 
 **Note:** Any references in the video to DataMapper have been updated in the template with DataWeave transformations.
 
-[![YouTube Video](http://img.youtube.com/vi/G3ElHAONaOQ/0.jpg)](https://www.youtube.com/watch?v=G3ElHAONaOQ)]
+[![YouTube Video](http://img.youtube.com/vi/G3ElHAONaOQ/0.jpg)](https://www.youtube.com/watch?v=G3ElHAONaOQ)
 
 # License Agreement
 
